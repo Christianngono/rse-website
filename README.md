@@ -1,4 +1,4 @@
-# 🌱 Projet RSE Website
+#  Projet RSE Website
 
 ##  Objectif
 
