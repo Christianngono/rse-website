@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Résultats du Quiz</title>
+  <link rel="stylesheet" href="Frontend/assets/css/results.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Résultats du Quiz</h1>
+    <p id="userName"></p>
+    <p id="score"></p>
+    <button id="downloadPDFBtn" class="btn">📄 Télécharger mes résultats en PDF</button>
+    <p id="feedback"></p>
+
+    <canvas id="donutChart" width="300" height="300"></canvas>
+
+    <h2>Détail des réponses :</h2>
+    <ul id="answerList"></ul>
+
+    <a href="Backend/public/quiz.php" class="btn">Rejouer le quiz</a>
+    <a href="leaderboard.html" class="btn">Voir le classement</a>
+  </div>
+
+  <script src="Frontend/js/results.js"></script>
+</body>
+</html>

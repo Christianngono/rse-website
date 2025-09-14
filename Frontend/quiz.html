@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Quiz RSE</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="Frontend/assets/css/quiz.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="Frontend/js/quiz.js" defer></script>
+</head>
+<body>
+  <div class="page-wrapper">
+    <h1>Quiz RSE</h1>
+    <div id="timer">⏱️ Temps restant : <span id="time">60</span> secondes</div>
+
+    <form id="quizForm">
+      <div id="questionContainer"></div>
+
+      <div class="navigation-buttons">
+        <button type="button" id="prevBtn">← Précédent</button>
+        <button type="button" id="nextBtn">Suivant →</button>
+        <button type="submit" id="submit-button" class="hidden">Soumettre mes réponses</button>
+        <button id="resumeQuizBtn" class="btn">🔄 Reprendre le quiz</button>
+      </div>
+
+      <input type="text" id="participantName" name="participantName" placeholder="Votre nom" required />
+    </form>
+
+    <div class="progress-container">
+      <div id="progressBar" class="progress-bar"></div>
+    </div>
+
+    <div id="live-score">Réponses sélectionnées : 0</div>
+
+    <div id="result" class="hidden">
+      <h2>Résultat</h2>
+      <p id="final-score"></p>
+      <button id="retry-button">Recommencer</button>
+      <button id="exportAnswersBtn">Exporter mes réponses</button>
+      <button id="shareScoreBtn">Partager mon score</button>
+      <button id="downloadCertificateBtn">Télécharger mon attestation</button>
+    </div>
+
+    <div id="toast" class="toast">
+      <span class="icon">🎉</span>
+      <span class="message">Bienvenue dans le quiz RSE !</span>
+    </div>
+
+    <div id="feedbackVisual" class="feedback-visual"><span class="check-icon">✅</span></div>
+    <div id="feedbackError" class="feedback-error"><span class="cross-icon">❌</span></div>
+  </div>
+</body>
+</html>

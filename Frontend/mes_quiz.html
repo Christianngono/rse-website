@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Mes quiz en cours</title>
+  <link rel="stylesheet" href="Frontend/assets/css/mes_quiz.css" />
+  <script src="Frontend/js/mes_quiz.js" defer></script>
+</head>
+<body>
+  <div class="filters">
+    <label for="categoryFilter">Catégorie :</label>
+    <select id="categoryFilter">
+      <option value="">Toutes</option>
+      <option value="Environnement">Environnement</option>
+      <option value="Ethique">Éthique</option>
+      <option value="Social">Social</option>
+      <option value="Gouvernance">Gouvernance</option>
+      <option value="Développement durable">Développement durable</option>
+      <option value="Normes et labels">Normes et labels</option>
+      <option value="Parties prenantes">Parties prenantes</option>
+    </select>
+
+    <label for="difficultyFilter">Difficulté :</label>
+    <select id="difficultyFilter">
+      <option value="">Toutes</option>
+      <option value="facile">Facile</option>
+      <option value="moyen">Moyen</option>
+      <option value="difficile">Difficile</option>
+    </select>
+  </div>
+  <div class="container">
+    <h1>📚 Mes quiz en cours</h1>
+    <div id="quizList"></div>
+  </div>
+  <button id="exportProgressBtn" class="btn">📄 Exporter mes quiz en cours</button>
+</body>
+</html>

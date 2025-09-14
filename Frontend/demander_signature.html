@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Demande de signature RSE</title>
+  <link rel="stylesheet" href="assets/css/demander_signature.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Signature numérique du certificat RSE</h1>
+    <form id="signatureForm">
+      <input type="text" name="username" placeholder="Votre nom" required>
+      <input type="email" name="email" placeholder="Votre email" required>
+      <input type="number" name="score" placeholder="Votre score" min="0" max="20" required>
+      <button type="submit">Recevoir le lien de validation</button>
+    </form>
+    <div id="message"></div>
+  </div>
+  <script src="assets/js/demander_signature.js"></script>
+</body>
+</html>

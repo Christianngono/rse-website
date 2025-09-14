@@ -1,0 +1,120 @@
+/* Structure générale */
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #f0f8f5;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Conteneur principal */
+.container {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  text-align: center;
+  width: 90%;
+  max-width: 400px;
+  margin-top: 40px;
+}
+
+/* Champs du formulaire */
+form input {
+  display: block;
+  width: 100%;
+  margin: 10px 0;
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+/* Bouton principal */
+form button {
+  padding: 12px 20px;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+form button:hover {
+  background-color: #0056b3;
+}
+
+/* Bannière dynamique */
+.banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  border-radius: 6px;
+  margin-top: 20px;
+  font-weight: bold;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+.banner-icon {
+  font-size: 24px;
+  animation: sparkle 1.2s infinite ease-in-out;
+}
+
+@keyframes sparkle {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.4); opacity: 0.6; }
+}
+
+.banner.success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.banner.error {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.banner.info {
+  background-color: #d1ecf1;
+  color: #0c5460;
+}
+
+/* Bouton secondaire */
+.btn.danger {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-left: auto;
+}
+
+.btn.danger:hover {
+  background-color: #c82333;
+}
+
+/* Fondu */
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 0.6s ease forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+.fade-out {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}

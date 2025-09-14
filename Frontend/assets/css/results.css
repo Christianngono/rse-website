@@ -1,0 +1,124 @@
+/* === Structure results.css === */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to right, #e0f7fa, #f1f8e9);
+  color: #333;
+}
+
+/* === Conteneur principal === */
+.container {
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 30px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+/* === Titres === */
+h1 {
+  text-align: center;
+  color: #2e7d32;
+  margin-bottom: 20px;
+}
+
+h2 {
+  margin-top: 40px;
+  color: #388E3C;
+  font-size: 1.3em;
+  text-align: center;
+}
+
+/* === Informations utilisateur === */
+#userName,
+#score,
+#feedback {
+  font-size: 1.1em;
+  margin: 10px 0;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* === Bouton PDF === */
+#downloadPDFBtn {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  background: #4CAF50;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+#downloadPDFBtn:hover {
+  background: #388E3C;
+}
+
+/* === Graphique donut === */
+canvas#donutChart {
+  display: block;
+  margin: 30px auto;
+  max-width: 300px;
+}
+
+/* === Liste des réponses === */
+#answerList {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+#answerList li {
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+#answerList strong {
+  display: block;
+  margin-bottom: 5px;
+}
+
+#answerList em {
+  font-style: italic;
+}
+
+/* === Boutons de navigation === */
+a.btn {
+  display: inline-block;
+  margin: 20px 10px 0;
+  padding: 10px 20px;
+  background: #4CAF50;
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: background 0.3s ease;
+  text-align: center;
+}
+
+a.btn:hover {
+  background: #388E3C;
+}
+
+/* === Responsive === */
+@media (max-width: 600px) {
+  .container {
+    padding: 20px;
+  }
+
+  canvas#donutChart {
+    max-width: 100%;
+  }
+
+  a.btn,
+  #downloadPDFBtn {
+    width: 100%;
+    margin: 10px 0;
+  }
+}

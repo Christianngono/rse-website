@@ -1,0 +1,232 @@
+/* === Structure générale === */
+body {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f6f8;
+  color: #2c3e50;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+body.dark-mode {
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+}
+
+/* === Header === */
+header {
+  padding: 20px;
+  background-color: #3498db;
+  color: white;
+  border-bottom: 2px solid #2980b9;
+}
+
+body.dark-mode header {
+  background-color: #2c3e50;
+  border-color: #1abc9c;
+}
+
+/* === Top bar === */
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.top-bar button {
+  background-color: #2ecc71;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.top-bar button:hover {
+  background-color: #27ae60;
+}
+
+/* === Navigation === */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+nav h1 {
+  font-size: 1.8em;
+  margin: 0;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 15px;
+  padding: 0;
+  margin: 0;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  padding: 6px 10px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+nav ul li a:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.user-info {
+  font-style: italic;
+}
+
+/* === Profil utilisateur === */
+#profileHeader {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+#profilePic {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid white;
+}
+
+#welcomeText {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+/* === Overlay d’intro === */
+#introOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #3498db, #2c3e50);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5em;
+  z-index: 9999;
+  animation: fadeOutIntro 2s ease 2s forwards;
+}
+
+@keyframes fadeOutIntro {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+/* === Notification === */
+#notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #2ecc71;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  z-index: 1000;
+}
+
+#notification.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* === Bravo message === */
+#bravoMessage, #levelUpMessage {
+  position: fixed;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #27ae60;
+  color: white;
+  font-size: 2em;
+  padding: 20px 40px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
+  z-index: 1000;
+  display: none;
+  animation: popUp 0.6s ease-out;
+}
+
+@keyframes popUp {
+  0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
+  100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
+/* === Bouton thème === */
+#themeToggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #34495e;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 50px;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+#themeToggle:hover {
+  background-color: #2c3e50;
+}
+
+/* === Loader === */
+#loader {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: bold;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  z-index: 1000;
+}
+
+body.dark-mode #loader {
+  background-color: #2c2c2c;
+  color: #e0e0e0;
+}
+
+/* === Responsive === */
+@media screen and (max-width: 768px) {
+  nav ul {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .top-bar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  #profileHeader {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}

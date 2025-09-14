@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Merci pour votre participation</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/toast.css">
+  <link rel="stylesheet" href="assets/css/remerciement.css">
+</head>
+<body>
+  <!-- Bannière dynamique -->
+  <div id="restoreBanner" class="banner" style="display: none;">
+    <span id="bannerIcon" class="banner-icon">✅</span>
+    <span id="bannerText" class="banner-text">Certificat envoyé avec succès.</span>
+    <button id="resetBtn" class="btn danger">🔁 Recommencer</button>
+  </div>
+    <!-- Bouton de téléchargement du certificat -->
+  <a id="downloadCertBtn" class="btn download" style="display:none;">📄 Télécharger mon certificat</a>
+    <!-- Couche de célébration -->
+  <div id="celebrationLayer"></div>
+
+  <div class="remerciement-container">
+    <div class="share">
+      <p>🎉 Partagez votre réussite :</p>
+      <a id="shareFacebook" class="btn social" target="_blank" rel="noopener noreferrer">
+        <i class="fab fa-facebook-f"></i> Facebook
+      </a>
+      <a id="shareTwitter" class="btn social" target="_blank" rel="noopener noreferrer">
+        <i class="fab fa-twitter"></i> Twitter
+      </a>
+      <a id="shareLinkedIn" class="btn social" target="_blank" rel="noopener noreferrer">
+        <i class="fab fa-linkedin-in"></i> LinkedIn
+      </a>
+    </div>
+
+    <a id="copyLinkBtn" class="btn secondary">Copier le lien du certificat</a>
+    <p id="copyConfirm" style="display:none; color:green; font-weight:bold;">✅ Lien copié !</p>
+
+    <div id="toast" class="toast" aria-live="polite">
+      <span id="toastIcon">✅</span>
+      <span id="toastMessage">Lien copié : <a id="toastLink" href="#" target="_blank">Voir le certificat</a></span>
+    </div>
+
+    <div class="heart-wrapper">
+      <div class="heart"></div>
+    </div>
+
+    <h1>🙏 Merci pour votre participation au quiz RSE</h1>
+    <p>Votre certificat a été envoyé avec succès.</p>
+    <a href="index.html" class="btn">🏠 Retour à l’accueil</a>
+  </div>
+    <script type="module" src="assets/js/remerciement.js"></script>
+</body>
+</html>

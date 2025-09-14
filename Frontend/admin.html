@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Gestion des utilisateurs</title>
+  <link rel="stylesheet" href="assets/css/admin.css">
+</head>
+<body>
+  <div class="container">
+    <h1>👤 Administration des utilisateurs</h1>
+
+    <div class="filters">
+      <select id="profilFilter">
+        <option value="">Tous les profils</option>
+        <option value="novice">Novice</option>
+        <option value="confirmé">Confirmé</option>
+        <option value="expert">Expert</option>
+      </select>
+
+      <select id="roleFilter">
+        <option value="">Tous les rôles</option>
+        <option value="user">Utilisateur</option>
+        <option value="admin">Administrateur</option>
+      </select>
+
+      <button id="applyFilters">Filtrer</button>
+    </div>
+
+    <table id="adminTable">
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Rôle</th>
+          <th>Profil</th>
+          <th>Email</th>
+          <th>Score</th>
+          <th>Actions</th>
+          <th>Inscription</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <script type="module" src="js/admin.js"></script>
+</body>
+</html>

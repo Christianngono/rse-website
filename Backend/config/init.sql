@@ -1,8 +1,59 @@
--- Supprime la table user_answers si elle existe déjà
-DROP TABLE IF EXISTS user_answers; 
--- Supprime la table questions si elle existe déjà
-DROP TABLE IF EXISTS questions;
+-- Sélection de la base
+USE rse_quiz;
 
+-- Suppression des anciennes tables si elles existent
+DROP TABLE IF EXISTS email_logs;
+DROP TABLE IF EXISTS activation_tokens;
+DROP TABLE IF EXISTS registration_attempts;
+DROP TABLE IF EXISTS sms_logs;
+DROP TABLE IF EXISTS phone_verifications;
+DROP TABLE IF EXISTS signature_tokens;
+DROP TABLE IF EXISTS user_answers;
+DROP TABLE IF EXISTS questions;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS admin_logs;
+DROP TABLE IF EXISTS quiz_scores;
+
+-- Table des utilisateurs (administration)
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(255) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    role ENUM('admin', 'user') DEFAULT 'user',
+    profil ENUM('novice', 'confirmé', 'expert') DEFAULT 'novice',
+    email VARCHAR(255),
+    phone VARCHAR(20),
+    is_active BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    last_login TIMESTAMP NULL,
+    quiz_score INT DEFAULT 0
+);
+
+CREATE TABLE admin_logs (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  admin_username VARCHAR(255),
+  action TEXT,
+  target_user_id INT,
+  timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE quiz_scores (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_name VARCHAR(255) NOT NULL,
+  score INT NOT NULL,
+  total INT NOT NULL,
+  message TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Table des logs d'emails envoyés
+CREATE TABLE email_logs (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(255),
+    recipient VARCHAR(255),
+    subject TEXT,
+    sent_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
 
 -- Table des questions
 CREATE TABLE questions (
@@ -13,6 +64,10 @@ CREATE TABLE questions (
     difficulty ENUM('facile', 'moyen', 'difficile')
 );
 
+-- Index pour optimiser les requêtes
+CREATE INDEX idx_category ON questions(category);
+CREATE INDEX idx_difficulty ON questions(difficulty);
+
 -- Table des réponses des utilisateurs
 CREATE TABLE user_answers (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -21,8 +76,59 @@ CREATE TABLE user_answers (
     user_answer VARCHAR(255) NOT NULL,
     is_correct BOOLEAN,
     answered_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (question_id) REFERENCES questions(id)
+    FOREIGN KEY (question_id) REFERENCES questions(id) ON DELETE CASCADE
 );
+
+-- Index pour les réponses
+CREATE INDEX idx_user ON user_answers(user_name);
+
+-- Table des tokens d'activation
+CREATE TABLE activation_tokens (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(255) NOT NULL,
+    token VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE registration_attempts (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    ip_address VARCHAR(45),
+    username VARCHAR(255),
+    attempted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    success BOOLEAN
+);
+
+CREATE TABLE sms_logs (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(255),
+    phone VARCHAR(20),
+    message TEXT,
+    sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    status VARCHAR(50)
+);
+
+CREATE TABLE phone_verifications (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(255) NOT NULL,
+    phone VARCHAR(20) NOT NULL,
+    code VARCHAR(10),
+    verified_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    status ENUM('validé', 'échoué') DEFAULT 'validé'
+);
+
+-- Table des tokens de signature numérique
+CREATE TABLE signature_tokens (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(255) NOT NULL,
+    email VARCHAR(255),
+    phone VARCHAR(20),
+    code VARCHAR(10) NOT NULL,
+    token VARCHAR(255) NOT NULL,
+    expires_at DATETIME NOT NULL,
+    is_validated BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 
 -- Insérer les questions
 INSERT INTO questions (question_text, correct_answer, category, difficulty) VALUES
@@ -107,4 +213,4 @@ INSERT INTO questions (question_text, correct_answer, category, difficulty) VALU
 ('Quel est le rôle des ONG ?', 'veille et sensibilisation', 'Parties prenantes', 'moyen'),
 ('Pourquoi dialoguer avec les collectivités ?', 'favoriser l’ancrage local', 'Parties prenantes', 'moyen'),
 ('Que signifie la responsabilité sociétale ?', 'impact global de l’entreprise', 'Parties prenantes', 'facile'),
-('Quel est le rôle des investisseurs responsables ?', 'financer des projets durables', 'parties prenantes', 'difficile');
+('Quel est le rôle des investisseurs responsables ?', 'financer des projets durables', 'Parties prenantes', 'difficile');

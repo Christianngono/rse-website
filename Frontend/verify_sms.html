@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vérification SMS</title>
+  <link rel="stylesheet" href="../../Frontend/assets/css/verify_sms.css">
+</head>
+<body>
+  <div class="container">
+    <h2>Vérification du numéro de téléphone</h2>
+    <p>Entrez le code reçu par SMS pour activer votre compte :</p>
+
+    <form id="verifyForm" action="#" method="POST">
+      <label for="code">Code reçu :</label>
+      <input type="text" id="code" name="code" required>
+
+      <label for="phone">Numéro de téléphone :</label>
+      <input type="text" id="phone" name="phone" required>
+
+      <input type="submit" value="Vérifier">
+    </form>
+
+    <div id="message"></div>
+  </div>
+
+  <script src="verify_sms.js"></script>
+</body>
+</html>

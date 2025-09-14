@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Classement RSE</title>
+  <link rel="stylesheet" href="assets/css/leaderboard.css">
+</head>
+<body>
+  <div class="container">
+    <h1>🏆 Classement des participants</h1>
+
+    <div class="filters">
+      <select id="profilFilter">
+        <option value="">Tous les profils</option>
+        <option value="novice">Novice</option>
+        <option value="confirmé">Confirmé</option>
+        <option value="expert">Expert</option>
+      </select>
+
+      <input type="date" id="dateFilter">
+      <button id="applyFilters">Filtrer</button>
+    </div>
+
+    <table id="leaderboardTable">
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Score</th>
+          <th>Profil</th>
+          <th>Date</th>
+          <th>Certificat</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <script type="module" src="assets/js/leaderboard.js"></script>
+</body>
+</html>

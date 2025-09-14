@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inscription au Quiz RSE</title>
+  <link rel="stylesheet" href="Frontend/assets/css/register.css" />
+  <script src="https://www.google.com/recaptcha/api.js?render=6LcW17orAAAAAAfKbbStyEY1ItmPMLAKXP3Ye-Yi"></script>
+</head>
+<body>
+  <div class="container">
+    <h2>Inscription au Quiz RSE</h2>
+
+    <!-- Message de validation -->
+    <p id="validationMessage" class="validation-message">
+      <span class="check-icon">✅</span> Tous les champs sont valides
+    </p>
+
+    <form id="registerForm" method="POST" autocomplete="off">
+      <!-- Nom d'utilisateur -->
+      <label for="username">Nom d'utilisateur :</label>
+      <div class="input-group">
+        <input type="text" name="username" id="username" required autocomplete="off" />
+        <span id="usernameStatus" class="status-icon"></span>
+      </div>
+
+      <!-- Email -->
+      <label for="email">Adresse email :</label>
+      <div class="input-group">
+        <input type="email" name="email" id="email" required />
+        <span id="emailStatus" class="status-icon"></span>
+      </div>
+
+      <!-- Mot de passe -->
+      <label for="password">Mot de passe :</label>
+      <div class="input-group">
+        <input type="password" name="password" id="password" required autocomplete="off" />
+        <span id="passwordStatus" class="status-icon"></span>
+      </div>
+      <div id="passwordStrength"></div>
+
+      <!-- Téléphone -->
+      <label for="phone">Numéro de téléphone :</label>
+      <div class="input-group">
+        <input type="text" name="phone" id="phone" />
+        <span id="phoneStatus" class="status-icon"></span>
+      </div>
+
+      <input type="hidden" name="recaptcha_token" id="recaptcha_token" />
+      <input type="submit" value="S'inscrire" />
+    </form>
+
+    <!-- Zone de message et loader -->
+    <div id="message"></div>
+    <div id="loader" class="loader-container">
+      <div class="loader"></div>
+      <p class="loader-text">Veuillez patienter…</p>
+    </div>
+  </div>
+
+  <!-- Overlay de confirmation -->
+  <div id="confirmationOverlay" class="overlay">
+    <div class="popup">
+      <span class="icon">🎉</span>
+      <h2>Inscription réussie</h2>
+      <p>Bienvenue dans le Quiz RSE !</p>
+      <div class="loader-bar"></div>
+    </div>
+  </div>
+
+  <!-- Scripts JS -->
+  <script type="module" src="Frontend/js/register.js"></script>
+</body>
+</html>

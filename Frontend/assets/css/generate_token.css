@@ -1,0 +1,30 @@
+body {
+  font-family: sans-serif;
+  background: #e3f2fd;
+  padding: 30px;
+}
+
+.container {
+  max-width: 600px;
+  margin: auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+button {
+  padding: 10px 20px;
+  background: #2196F3;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#tokenResult {
+  margin-top: 20px;
+  font-weight: bold;
+  word-break: break-word;
+}

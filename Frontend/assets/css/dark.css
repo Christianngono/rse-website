@@ -1,0 +1,23 @@
+body {
+  background-color: #121212;
+  color: #f0f0f0;
+}
+
+table {
+  background-color: #1e1e1e;
+  color: #fff;
+}
+
+.btn {
+  background-color: #333;
+  color: #fff;
+}
+
+.pagination a {
+  background-color: #444;
+  color: #fff;
+}
+
+.pagination a.active {
+  background-color: #0077cc;
+}

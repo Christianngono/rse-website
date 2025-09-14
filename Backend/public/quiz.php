@@ -1,32 +1,26 @@
 <?php
-require_once '../config/db.php'; // ton fichier de connexion à MySQL
-
+require_once '../config/database.php';
 session_start();
+header('Content-Type: application/json');
 
-// Initialisation
-$profil = $_POST['profil'] ?? '';
+$profil = $_SESSION['profil'] ?? '';
 $category = $_POST['category'] ?? '';
-$difficulty = $_POST['difficulty'] ?? '';
 
-// Gestion du parcours personnalisé
-if ($profil) {
-    $difficulty = match($profil) {
-        'novice' => 'facile',
-        'confirmé' => 'moyen',
-        'expert' => 'difficile',
-        default => $difficulty,
-    };
-}
+$difficulty = match($profil) {
+    'novice' => 'facile',
+    'confirmé' => 'moyen',
+    'expert' => 'difficile',
+    default => '',
+};
 
-// Requête filtrée
 $sql = "SELECT * FROM questions WHERE 1=1";
 $params = [];
 
-if (!empty($category)) {
+if ($category) {
     $sql .= " AND category = ?";
     $params[] = $category;
 }
-if (!empty($difficulty)) {
+if ($difficulty) {
     $sql .= " AND difficulty = ?";
     $params[] = $difficulty;
 }
@@ -35,49 +29,23 @@ $sql .= " ORDER BY RAND() LIMIT 5";
 $stmt = $pdo->prepare($sql);
 $stmt->execute($params);
 $questions = $stmt->fetchAll();
-?>
 
-<!-- HTML -->
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Quiz RSE</title>
-  <meta charset="UTF-8">
-</head>
-<body>
-  <h1>🎓 Quiz RSE</h1>
+foreach ($questions as &$q) {
+    $wrongStmt = $pdo->prepare("
+        SELECT DISTINCT user_answer 
+        FROM user_answers 
+        WHERE question_id = ? AND is_correct = FALSE 
+        ORDER BY RAND() LIMIT 3
+    ");
+    $wrongStmt->execute([$q['id']]);
+    $wrongAnswers = $wrongStmt->fetchAll(PDO::FETCH_COLUMN);
 
-  <!-- Formulaire de sélection -->
-  <form method="POST">
-    <label>Profil :</label>
-    <select name="profil">
-      <option value="">-- Choisir --</option>
-      <option value="novice">Novice</option>
-      <option value="confirmé">Confirmé</option>
-      <option value="expert">Expert</option>
-    </select>
+    while (count($wrongAnswers) < 3) {
+        $wrongAnswers[] = "Réponse fictive " . (count($wrongAnswers) + 1);
+    }
 
-    <label>Thème :</label>
-    <select name="category">
-      <option value="">-- Catégorie --</option>
-      <option value="Environnement">Environnement</option>
-      <option value="Ethique">Éthique</option>
-      <!-- Ajoute les autres ici -->
-    </select>
+    $q['answers'] = array_merge([$q['correct_answer']], $wrongAnswers);
+    shuffle($q['answers']);
+}
 
-    <button type="submit">Lancer le quiz</button>
-  </form>
-
-  <!-- Questions -->
-  <?php if ($questions): ?>
-    <form method="POST" action="results.php">
-      <?php foreach ($questions as $q): ?>
-        <p><?= htmlspecialchars($q['question_text']) ?></p>
-        <input type="hidden" name="id[]" value="<?= $q['id'] ?>">
-        <input type="text" name="answers[]">
-      <?php endforeach; ?>
-      <button type="submit">Soumettre</button>
-    </form>
-  <?php endif; ?>
-</body>
-</html>
+echo json_encode($questions);

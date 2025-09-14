@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Tableau de bord Admin</title>
+  <link rel="stylesheet" href="assets/css/admin.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>📊 Tableau de bord RSE</h1>
+
+    <div class="stats">
+      <p>Total de participants : <span id="totalParticipants">...</span></p>
+      <p>Score moyen : <span id="averageScore">...</span></p>
+    </div>
+
+    <canvas id="profilChart" width="400" height="300"></canvas>
+
+    <table id="profilTable">
+      <thead>
+        <tr>
+          <th>Profil</th>
+          <th>Nombre</th>
+          <th>Score moyen</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+    <script src="assets/js/admin_dashboard.js"></script>
+</body>
+</html>

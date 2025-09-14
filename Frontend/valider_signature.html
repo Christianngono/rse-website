@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Validation de signature</title>
+  <link rel="stylesheet" href="assets/css/toast.css">
+  <link rel="stylesheet" href="assets/css/valider_signature.css">
+</head>
+<body>
+  <div class="message">
+    <h1 id="statusTitle">🔄 Vérification en cours...</h1>
+    <p id="statusText">Veuillez patienter pendant la validation de votre signature.</p>
+    <a href="index.html" class="btn">🏠 Retour à l’accueil</a>
+    <div class="spinner" id="spinner"></div>
+       <p id="countdown"></p>
+       <button id="retryBtn">🔁 Redemander un lien</button>
+    </div>
+
+  <div id="toast" class="toast" aria-live="polite">
+    <span id="toastIcon">✅</span>
+    <span id="toastMessage">Message</span>
+    <a id="toastLink" href="#" target="_blank" style="display:none;">Voir</a>
+  </div>
+
+  <script type="module" src="assets/js/valider_signature.js"></script>
+</body>
+</html>

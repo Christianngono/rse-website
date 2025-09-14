@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Demande de Certificat RSE</title>
+  <link rel="stylesheet" href="assets/css/toast.css">
+  <link rel="stylesheet" href="assets/css/certificat.css">
+</head>
+<body>
+  <div id="restoreBanner" class="banner" style="display: none;">
+  <span id="bannerIcon" class="banner-icon">✨</span>
+  <span class="banner-text" id="bannerText">Vos données ont été restaurées automatiquement.</span>
+  <button id="resetBtn" class="btn danger" style="display: none;">❌ Modifier mes informations</button>
+</div>
+  <div class="container">
+    <h1>🎓 Générer mon certificat RSE</h1>
+    <form id="certificatForm">
+      <input type="text" name="nom" placeholder="Votre nom" required>
+      <input type="email" name="email" placeholder="Votre email" required>
+      <input type="number" name="score" placeholder="Votre score" min="0" max="20" required>
+      <button type="submit">Recevoir le lien de signature</button>
+    </form>
+    <div id="resultat"></div>
+  </div>
+  <div id="toast" class="toast" aria-live="polite">
+    <span id="toastIcon">✅</span>
+    <span id="toastMessage">Message</span>
+    <a id="toastLink" href="#" target="_blank" style="display:none;">Voir</a>
+  </div>
+
+  <script type="module" src="assets/js/certificat.js"></script>
+</body>
+</html>
