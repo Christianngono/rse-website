@@ -8,6 +8,11 @@ $role = $_GET['role'] ?? '';
 $sql = "SELECT id, username, role, profil, email, quiz_score, created_at FROM users WHERE 1=1";
 $params = [];
 
+if (php_sapi_name() === 'cli') {
+    echo "Ce script ne doit pas être lancé en ligne de commande.\n";
+    exit;
+}
+
 if ($profil) {
   $sql .= " AND profil = ?";
   $params[] = $profil;
