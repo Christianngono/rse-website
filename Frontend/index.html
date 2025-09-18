@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Quiz interactif sur la Responsabilité Sociétale des Entreprises (RSE)">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accueil – Quiz RSE</title>
+  <link rel="stylesheet" href="assets/css/index.css">
+  <link rel="stylesheet" href="assets/css/header.css">
+  <link rel="stylesheet" href="assets/css/footer.css">
+</head>
+<body>
+
+  <header>
+    <nav>
+      <h1>Quiz RSE</h1>
+      <button id="menuToggle">☰</button>
+      <ul id="navMenu">
+        <li><a href="quiz.html">Quiz</a></li>
+        <li><a href="admin.html">Admin</a></li>
+        <li class="user-info" id="userInfo"></li>
+        <li>
+          <button id="themeToggle" title="Changer de thème">
+            <span id="themeIcon">🌙</span>
+          </button>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section id="introOverlay">
+      <p>Bienvenue sur le Quiz RSE</p>
+      <p>Préparez-vous à tester vos connaissances !</p>
+    </section>
+
+    <section class="fade-in">
+      <h1>Engagez-vous pour un monde responsable</h1>
+      <p>Un quiz, une mission, un impact.</p>
+      <video autoplay muted loop width="100%" style="max-width:720px;">
+        <source src="assets/videos/rse-background.mp4" type="video/mp4">
+        Votre navigateur ne supporte pas la lecture vidéo.
+      </video>
+      <br><br>
+      <a href="quiz.html"><button>Commencer le Quiz</button></a>
+    </section>
+
+    <section class="fade-in">
+      <h2>Qu'est-ce que la RSE ?</h2>
+      <p>La Responsabilité Sociétale des Entreprises consiste à intégrer les préoccupations sociales, environnementales et économiques dans les activités d’une entreprise.</p>
+      <video controls poster="assets/images/preview.jpg" width="100%" style="max-width:720px;">
+        <source src="assets/videos/intro-video.mp4" type="video/mp4">
+      </video>
+    </section>
+
+    <section class="fade-in">
+      <h2>Connexion</h2>
+      <form method="post" action="index.php">
+        <label>Nom d'utilisateur : <input type="text" name="username" required></label><br><br>
+        <label>Mot de passe : <input type="password" name="password" required></label><br><br>
+        <p><a href="forgot_password.html">Mot de passe oublié ?</a></p>
+        <p><a href="register.html">Pas encore de compte ? Inscrivez-vous</a></p><br>
+        <button type="submit">Se connecter</button>
+      </form>
+    </section>
+
+    <section class="fade-in" id="adminSection" style="display:none;">
+      <h2>Espace administrateur</h2>
+      <a href="admin.html"><button>Accéder à l’administration</button></a>
+    </section>
+  </main>
+
+  <div id="notification" class="info">Bienvenue sur le site du Quiz RSE</div>
+  <div id="loader">Chargement...</div>
+
+  <!-- Module JS principal -->
+  <script type="module" src="js/modules/index.js"></script>
+</body>
+</html>
