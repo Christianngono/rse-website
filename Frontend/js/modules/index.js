@@ -3,20 +3,18 @@ import { updateClock } from './clock.js';
 import { updateConnectionStatus, autoReconnect } from './connection.js';
 import { toggleTheme, applySavedTheme } from './theme.js';
 import { showNotification, clearNotificationLog, exportNotificationLog } from './notifications.js';
-import {loadUserStats} from './dashboardModules.js';
-import {filterUsers, clearFilters, populateCategoryFilter} from './filters.js';
-
+import { loadUserStats } from './dashboardModules.js';
+import { filterUsers, clearFilters, populateCategoryFilter } from './filters.js';
 
 window.addEventListener('DOMContentLoaded', () => {
   // Filtres
   filterUsers();
   clearFilters();
   populateCategoryFilter(window.initialData || {});
+
   // Thème sombre
   applySavedTheme();
   toggleTheme();
-
-  loadUserStats
 
   // Message de bienvenue
   getGreeting();
@@ -28,15 +26,51 @@ window.addEventListener('DOMContentLoaded', () => {
   // Connexion
   updateConnectionStatus();
   autoReconnect();
-  
+
   // Notifications
   showNotification();
   clearNotificationLog();
   exportNotificationLog();
 
+  // Préférence système pour le thème
+  const body = document.body;
+  const themeToggle = document.getElementById('themeToggle');
+  const themeIcon = document.getElementById('themeIcon');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const savedTheme = localStorage.getItem('theme');
 
- 
-  // Animations et badges selon session PHP
+  if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+    body.classList.add('dark-mode');
+    themeIcon.textContent = '☀️';
+  }
+
+  // Bascule du thème
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      body.classList.toggle('dark-mode');
+      const isDark = body.classList.contains('dark-mode');
+      themeIcon.textContent = isDark ? '☀️' : '🌙';
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    });
+  }
+
+  // Menu mobile
+  const menuToggle = document.getElementById('menuToggle');
+  const navMenu = document.getElementById('navMenu');
+  if (menuToggle && navMenu) {
+    menuToggle.addEventListener('click', () => {
+      navMenu.classList.toggle('show');
+    });
+  }
+
+  // Notification d’accueil
+  const notif = document.getElementById('notification');
+  if (notif) {
+    notif.classList.add('show');
+    setTimeout(() => notif.classList.remove('show'), 3000);
+  }
+
+  // Session PHP (injectée via script inline)
   const session = window.userSession;
 
   if (session?.isLoggedIn) {
@@ -76,6 +110,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
     badgeContainer.textContent = badgeText;
     document.body.appendChild(badgeContainer);
+
+    // Appeler effectif de la fonction loadUserStats()
+    loadUserStats();
   }
 
   // Masquer l’intro après délai
