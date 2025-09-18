@@ -1,21 +1,30 @@
 import { fetchDashboardData } from '../rse-website/Frontend/js/admin.js';
 import { renderCategoryChart } from '../rse-website/Frontend/js/modules/chartStats.js';
 import { renderDonutChart } from './chartDonut.js';
+import { showNotification } from './notifications.js';
+import { populateCategoryFilter } from './filters.js';
 
-// Données statiques pour les graphiques initiaux
+// === Graphiques statiques initiaux ===
 const chartData = {
   labels: ['Environnement', 'Éthique', 'Social', 'Gouvernance', 'Développement durable', 'Normes et labels', 'Parties prenantes'],
   values: [85, 60, 90, 45, 75, 50, 95]
 };
-renderCategoryChart({ categoryStats: chartData.labels.map((label, i) => ({ category: label, success_rate: chartData.values[i] })) });
 
 const donutData = {
   labels: ['Bonnes réponses', 'Mauvaises réponses', 'Non répondu', 'Autres'],
   values: [120, 30, 10, 5]
 };
+
+renderCategoryChart({
+  categoryStats: chartData.labels.map((label, i) => ({
+    category: label,
+    success_rate: chartData.values[i]
+  }))
+});
+
 renderDonutChart(donutData);
 
-// Fonctions principales du dashboard
+// === Chargement complet du dashboard ===
 export async function loadDashboard(user = null, page = 1) {
   try {
     const dashboardData = await fetchDashboardData(user, page);
@@ -25,16 +34,28 @@ export async function loadDashboard(user = null, page = 1) {
     if (user) renderCategoryChart(dashboardData);
     renderUserPagination(dashboardData);
     populateCategoryFilter(dashboardData);
+    showNotification("Données mises à jour", "success");
   } catch (error) {
     showNotification("Erreur de chargement : " + error.message, "error");
   } finally {
-    loader.style.display = 'none';
+    const loader = document.getElementById('loader');
+    if (loader) loader.style.display = 'none';
   }
-  showNotification("Données mises à jour", "success");
 }
 
+// === Chargement des stats utilisateur sélectionné ===
+export function loadUserStats() {
+  const select = document.getElementById('userSelect');
+  if (!select) return;
+  const selectedUser = select.value;
+  showNotification(`Utilisateur sélectionné : ${selectedUser}`, "info");
+  loadDashboard(selectedUser);
+}
+
+// === Rendu du tableau des utilisateurs ===
 export function renderUserTable(data) {
   const tbody = document.querySelector('#userTable tbody');
+  if (!tbody) return;
   tbody.innerHTML = '';
   tbody.classList.add('fade-in');
 
@@ -46,7 +67,6 @@ export function renderUserTable(data) {
   data.users.forEach(user => {
     const score = user.total > 0 ? Math.round((user.bonnes / user.total) * 100) : 0;
     const category = user.category || '';
-
     tbody.innerHTML += `
       <tr data-category="${category}">
         <td data-label="Nom">${user.user_name}</td>
@@ -57,8 +77,10 @@ export function renderUserTable(data) {
   });
 }
 
+// === Pagination utilisateur ===
 export function renderUserPagination(data) {
   const container = document.getElementById('userPagination');
+  if (!container) return;
   container.innerHTML = '';
 
   const prevBtn = document.createElement('button');
@@ -79,8 +101,10 @@ export function renderUserPagination(data) {
   container.appendChild(nextBtn);
 }
 
+// === Sélecteur utilisateur ===
 export function renderUserSelect(data) {
   const select = document.getElementById('userSelect');
+  if (!select) return;
   select.innerHTML = '';
   data.users.forEach(user => {
     const option = document.createElement('option');
@@ -91,14 +115,10 @@ export function renderUserSelect(data) {
   });
 }
 
-export function loadUserStats() {
-  const selectedUser = document.getElementById('userSelect').value;
-  showNotification(`Utilisateur sélectionné : ${selectedUser}`, "info");
-  loadDashboard(selectedUser);
-}
-
+// === Tableau des questions ===
 export function renderQuestionTable(data) {
   const tbody = document.querySelector('#questionTable tbody');
+  if (!tbody) return;
   tbody.innerHTML = '';
   tbody.classList.add('fade-in');
 
