@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Bienvenue – Quiz RSE</title>
+  <link rel="stylesheet" href="assets/css/welcome.css">
+</head>
+<body>
+  <main>
+    <h1>Bienvenue sur le site du Quiz RSE</h1>
+
+    <div class="actions">
+      <a href="index.html" class="btn">Retour à l’accueil</a>
+      <a href="login.html" class="btn">Se connecter</a>
+      <a href="register.html" class="btn">s'en registrer</a>
+    </div>
+
+    <!-- Loader SVG caché par défaut -->
+    <div id="loader" class="hidden">
+      <svg width="60" height="60" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="40" stroke="#3498db" stroke-width="8" fill="none" stroke-linecap="round">
+          <animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50"
+            dur="1s" repeatCount="indefinite" />
+        </circle>
+      </svg>
+      <p>Chargement de votre espace...</p>
+    </div>
+  </main>
+
+  <script>
+    window.userSession = {
+      isLoggedIn: true,
+      role: "admin",
+      profil: "expert"
+    };
+  </script>
+  <script src="js/welcome.js" type="module"></script>
+</body>
+</html>
