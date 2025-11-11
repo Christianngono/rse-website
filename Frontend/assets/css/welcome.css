@@ -77,6 +77,11 @@ h1, p {
   transition: background-color 0.3s ease;
 }
 
+.btn.clicked {
+  animation: fadeOut 0.8s ease forwards;
+  background-color: #004d40;
+}
+
 .btn:hover {
   background-color: #004d40;
 }
@@ -89,4 +94,41 @@ h1, p {
   0% { transform: scale(1); }
   50% { transform: scale(1.05); }
   100% { transform: scale(1); }
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+
+.btn.novice {
+  animation: bounceIn 1.2s ease;
+}
+
+.btn.confirmé {
+  animation: fadeInScale 1.2s ease;
+}
+
+.btn.expert {
+  animation: glowPulse 1.2s ease;
+  box-shadow: 0 0 10px #ff9800;
+}
+
+@keyframes bounceIn {
+  0% { transform: scale(0.8); opacity: 0; }
+  60% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+@keyframes fadeInScale {
+  0% { transform: scale(0.5); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes glowPulse {
+  0% { box-shadow: 0 0 5px #ff9800; }
+  50% { box-shadow: 0 0 20px #ff9800; }
+  100% { box-shadow: 0 0 5px #ff9800; }
 }

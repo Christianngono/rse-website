@@ -1,18 +1,26 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const sound = document.getElementById("welcomeSound");
-  if (sound) {
-    sound.volume = 0.5;
-    sound.play().catch(() => {
-      console.warn("Lecture automatique bloquée par le navigateur.");
-    });
+  const welcomeSound = document.getElementById("welcomeSound");
+  const clickSound = document.getElementById("clickSound");
+  const btn = document.querySelector(".btn");
+
+  if (welcomeSound) {
+    welcomeSound.volume = 0.5;
+    welcomeSound.play().catch(() => {});
   }
 
-  const btn = document.querySelector(".btn");
-  btn.addEventListener("click", () => {
+  btn.addEventListener("click", (e) => {
+    e.preventDefault();
     btn.classList.remove("pulse");
+    btn.classList.add("clicked");
     btn.textContent = "Chargement...";
+
+    if (clickSound) {
+      clickSound.volume = 0.6;
+      clickSound.play().catch(() => {});
+    }
+
     setTimeout(() => {
       window.location.href = btn.getAttribute("href");
-    }, 800);
+    }, 1200);
   });
 });
