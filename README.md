@@ -15,7 +15,7 @@ Ce projet témoigne de mon **engagement personnel** et sera **rendu le 1er septe
 
 - **Frontend** : HTML, CSS, JavaScript
 - **Backend** : PHP
-- **Base de données** : MySQL
+- **Base de données** : MySQL, MariaDB, 
 - **Outils** : Git, GitHub, VS Code
 
 ---

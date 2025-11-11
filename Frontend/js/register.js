@@ -1,163 +1,214 @@
-import { checkUsernameAvailability, checkEmailAvailability } from './check_username.js';
-
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("registerForm");
-  const msg = document.getElementById("message");
   const loader = document.getElementById("loader");
-  const submitBtn = form.querySelector("input[type='submit']");
+  const messageBox = document.getElementById("message");
+  const overlay = document.getElementById("confirmationOverlay");
 
-  const usernameInput = form.username;
-  const emailInput = form.email;
-  const passwordInput = form.password;
-  const phoneInput = form.phone;
+  const usernameInput = document.getElementById("username");
+  const emailInput = document.getElementById("email");
+  const passwordInput = document.getElementById("password");
+  const phoneInput = document.getElementById("phone");
+  const roleSelect = document.getElementById("role");
+  const profilSelect = document.getElementById("profil");
+  const confirmCheckbox = document.getElementById("confirmCheckbox");
+  const submitBtn = document.getElementById("submitBtn");
 
   const usernameStatus = document.getElementById("usernameStatus");
   const emailStatus = document.getElementById("emailStatus");
-  const passwordStrength = document.getElementById("passwordStrength");
-  const phoneStatus = document.getElementById("phoneStatus");
-  const validationMessage = document.getElementById("validationMessage");
-  const confirmationOverlay = document.getElementById("confirmationOverlay");
+  const suggestionBox = document.getElementById("usernameSuggestions");
 
-  const audio = new Audio("Frontend/assets/sounds/success.mp3");
-  audio.volume = 0.2;
-  audio.load();
+  const strengthDisplay = document.getElementById("passwordStrength");
+  const barFill = document.querySelector(".bar-fill");
 
-  if (!form || !msg || !loader || !submitBtn || !usernameInput || !emailInput || !passwordInput || !phoneInput || !usernameStatus || !emailStatus || !passwordStrength || !phoneStatus || !validationMessage || !confirmationOverlay) {
-    console.error("Éléments du DOM manquants.");
-    return;
+  const summaryBox = document.getElementById("accountSummary");
+  const summaryUsername = document.getElementById("summaryUsername");
+  const summaryEmail = document.getElementById("summaryEmail");
+  const summaryRole = document.getElementById("summaryRole");
+  const summaryProfil = document.getElementById("summaryProfil");
+  const summaryPhone = document.getElementById("summaryPhone");
+
+  const rolePreview = document.getElementById("rolePreview");
+  const profilPreview = document.getElementById("profilPreview");
+
+  const bannedPasswords = [
+    "123456", "password", "123456789", "qwerty", "12345678", "111111", "123123",
+    "abc123", "password1", "iloveyou", "admin"
+  ];
+
+  const roleDescriptions = {
+    user: "👤 Utilisateur : accès standard au quiz et aux statistiques personnelles.",
+    admin: "🛠️ Administrateur : accès complet à la gestion des utilisateurs et des rapports."
+  };
+
+  const profilDescriptions = {
+    novice: "🌱 Novice : vous débutez dans le domaine RSE.",
+    confirmé: "📘 Confirmé : vous avez déjà une bonne connaissance du sujet.",
+    expert: "🚀 Expert : vous maîtrisez les enjeux RSE et souhaitez aller plus loin."
+  };
+
+  function updatePreview() {
+    rolePreview.textContent = roleDescriptions[roleSelect.value] || "";
+    profilPreview.textContent = profilDescriptions[profilSelect.value] || "";
   }
 
-  let usernameValid = false;
-  let emailValid = false;
-  let passwordValid = false;
-  let phoneValid = false;
-
-  function updateSubmitState() {
-    const allValid = usernameValid && emailValid && passwordValid && phoneValid;
-    submitBtn.disabled = !allValid;
-    submitBtn.classList.toggle("active", allValid);
-    submitBtn.classList.toggle("bounce", allValid);
-
-    if (allValid) {
-      validationMessage.textContent = "Tous les champs sont valides ✅";
-      validationMessage.classList.add("visible");
-    } else {
-      validationMessage.classList.remove("visible");
-    }
+  function updateSummary() {
+    summaryUsername.textContent = usernameInput.value;
+    summaryEmail.textContent = emailInput.value;
+    summaryRole.textContent = roleSelect.options[roleSelect.selectedIndex].text;
+    summaryProfil.textContent = profilSelect.options[profilSelect.selectedIndex].text;
+    summaryPhone.textContent = phoneInput.value || "Non renseigné";
+    summaryBox.style.display = "block";
+    confirmCheckbox.checked = false;
+    submitBtn.disabled = true;
   }
 
-  // Vérification du nom d'utilisateur
-  let lastCheck = 0;
-  usernameInput.addEventListener("input", () => {
-    const now = Date.now();
-    if (now - lastCheck < 1000) return;
-    lastCheck = now;
+  roleSelect.addEventListener("change", updatePreview);
+  profilSelect.addEventListener("change", updatePreview);
 
+  confirmCheckbox.addEventListener("change", () => {
+    submitBtn.disabled = !confirmCheckbox.checked;
+  });
+
+  usernameInput.addEventListener("blur", async () => {
     const username = usernameInput.value.trim();
-    checkUsernameAvailability(username, loader, usernameStatus, isValid => {
-      usernameValid = isValid;
-      updateSubmitState();
-    });
+    suggestionBox.innerHTML = "";
+    if (username.length >= 3) {
+      try {
+        const res = await fetch("/check_username.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams({ username })
+        });
+        const data = await res.json();
+        if (data.username_available === false) {
+          usernameStatus.textContent = "❌";
+          usernameInput.classList.add("invalid");
+          usernameInput.classList.remove("valid");
+
+          const match = data.username_message.match(/Suggestions\s*:\s*(.+)/);
+          if (match) {
+            const suggestions = match[1].split(',').map(s => s.trim());
+            suggestions.forEach(suggestion => {
+              const btn = document.createElement("button");
+              btn.textContent = suggestion;
+              btn.className = "suggestion-btn";
+              btn.addEventListener("click", () => {
+                usernameInput.value = suggestion;
+                usernameStatus.textContent = "✅";
+                usernameInput.classList.add("valid");
+                usernameInput.classList.remove("invalid");
+                suggestionBox.innerHTML = "";
+              });
+              suggestionBox.appendChild(btn);
+            });
+          }
+        } else {
+          usernameStatus.textContent = "✅";
+          usernameInput.classList.add("valid");
+          usernameInput.classList.remove("invalid");
+        }
+      } catch {
+        usernameStatus.textContent = "⚠️";
+      }
+    }
   });
 
-  // Vérification de l'email
-  emailInput.addEventListener("input", () => {
+  emailInput.addEventListener("blur", async () => {
     const email = emailInput.value.trim();
-    checkEmailAvailability(email, loader, emailStatus, isValid => {
-      emailValid = isValid;
-      updateSubmitState();
-    });
+    if (email.length >= 5) {
+      try {
+        const res = await fetch("/check_username.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams({ email })
+        });
+        const data = await res.json();
+        if (data.email_available === false) {
+          emailStatus.textContent = "❌";
+          emailInput.classList.add("invalid");
+          emailInput.classList.remove("valid");
+        } else {
+          emailStatus.textContent = "✅";
+          emailInput.classList.add("valid");
+          emailInput.classList.remove("invalid");
+        }
+      } catch {
+        emailStatus.textContent = "⚠️";
+      }
+    }
   });
 
-  // Sécurité du mot de passe
   passwordInput.addEventListener("input", () => {
     const password = passwordInput.value;
-    let score = 0;
-    if (password.length >= 8) score++;
-    if (/[A-Z]/.test(password)) score++;
-    if (/[a-z]/.test(password)) score++;
-    if (/[0-9]/.test(password)) score++;
-    if (/[^A-Za-z0-9]/.test(password)) score++;
+    let strength = 0;
 
-    const levels = ["Très faible", "Faible", "Moyenne", "Bonne", "Excellente"];
-    const colors = ["red", "orange", "gold", "green", "darkgreen"];
+    if (bannedPasswords.includes(password.toLowerCase())) {
+      strengthDisplay.textContent = "Mot de passe trop commun ❌";
+      barFill.style.width = "0%";
+      barFill.style.backgroundColor = "#dc3545";
+      passwordInput.classList.add("invalid");
+      passwordInput.classList.remove("valid");
+      return;
+    }
 
-    passwordStrength.textContent = "Sécurité : " + levels[score];
-    passwordStrength.style.color = colors[score];
+    if (password.length >= 8) strength++;
+    if (/[A-Z]/.test(password)) strength++;
+    if (/[a-z]/.test(password)) strength++;
+    if (/\d/.test(password)) strength++;
 
-    passwordValid = score >= 3;
-    updateSubmitState();
+    const levels = ["Très faible", "Faible", "Moyen", "Fort", "Très fort"];
+    const colors = ["#dc3545", "#fd7e14", "#ffc107", "#28a745", "#006400"];
+    const widths = ["20%", "40%", "60%", "80%", "100%"];
+
+    strengthDisplay.textContent = `Force : ${levels[strength]}`;
+    barFill.style.width = widths[strength];
+    barFill.style.backgroundColor = colors[strength];
+
+    if (strength >= 3) {
+      passwordInput.classList.add("valid");
+      passwordInput.classList.remove("invalid");
+    } else {
+      passwordInput.classList.remove("valid");
+    }
   });
 
-  // Vérification du téléphone
-  phoneInput.addEventListener("input", () => {
-    const phoneRegex = /^[0-9]{10}$/;
-    phoneValid = phoneRegex.test(phoneInput.value.trim());
-    phoneStatus.textContent = phoneValid ? "✅" : "❌";
-    phoneStatus.className = phoneValid ? "valid" : "invalid";
-    updateSubmitState();
-  });
-
-  // Soumission du formulaire
-  form.addEventListener("submit", e => {
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const formData = new FormData(form);
+    loader.style.display = "block";
+    messageBox.textContent = "";
+    updateSummary();
 
-    submitBtn.classList.add("loading");
+    try {
+      const token = await grecaptcha.execute("6LcW17orAAAAAAfKbbStyEY1ItmPMLAKXP3Ye-Yi", {
+        action: "register"
+      });
+      document.getElementById("recaptcha_token").value = token;
 
-    grecaptcha.ready(() => {
-      grecaptcha.execute('6LcW17orAAAAAAfKbbStyEY1ItmPMLAKXP3Ye-Yi', { action: 'register' })
-        .then(token => {
-          formData.append('recaptcha_token', token);
-          loader.classList.add("visible");
+      const formData = new FormData(form);
+      const response = await fetch("/register.php", {
+        method: "POST",
+        body: formData,
+      });
 
-          fetch("Backend/public/register.php", {
-            method: "POST",
-            body: formData
-          })
-            .then(res => res.json())
-            .then(data => {
-              loader.classList.remove("visible");
-              submitBtn.classList.remove("loading");
+      const result = await response.json();
+      loader.style.display = "none";
 
-              msg.innerHTML = data.success
-                ? `<span class="icon">🎉</span> Inscription réussie ! Redirection en cours...`
-                : `<span class="icon">⚠️</span> ${data.message}`;
-              msg.style.color = data.success ? "green" : "red";
-              msg.classList.add("visible");
-              msg.style.opacity = 0;
-              setTimeout(() => { msg.style.opacity = 1; }, 100);
-
-              if (data.success) {
-                audio.play();
-                confirmationOverlay.style.display = "flex";
-                localStorage.setItem("welcome", "true");
-
-                form.reset();
-                usernameStatus.textContent = "";
-                emailStatus.textContent = "";
-                passwordStrength.textContent = "";
-                phoneStatus.textContent = "";
-                submitBtn.disabled = true;
-                submitBtn.classList.remove("active");
-
-                setTimeout(() => {
-                  confirmationOverlay.classList.add("fade-out");
-                  setTimeout(() => {
-                    confirmationOverlay.style.display = "none";
-                    window.location.href = "Frontend/quiz.html";
-                  }, 500);
-                }, 2500);
-              }
-            })
-            .catch(() => {
-              submitBtn.classList.remove("loading");
-              msg.innerHTML = `<span class="icon">⚠️</span> Erreur réseau.`;
-              msg.style.color = "red";
-              msg.classList.add("visible");
-              loader.classList.remove("visible");
-            });
-        });
-    });
+      if (result.success) {
+        overlay.style.display = "flex";
+        overlay.querySelector(".popup").classList.add("animated");
+        setTimeout(() => {
+          window.location.href = "/welcome.html";
+        }, 4500);
+      } else {
+        messageBox.textContent = result.message;
+        messageBox.style.color = "red";
+        messageBox.classList.add("shake");
+        setTimeout(() => messageBox.classList.remove("shake"), 500);
+      }
+    } catch {
+      loader.style.display = "none";
+      messageBox.textContent = "Erreur réseau ou serveur.";
+      messageBox.style.color = "red";
+    }
   });
 });

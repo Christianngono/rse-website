@@ -1,47 +1,260 @@
+/* === Base === */
+* {
+  box-sizing: border-box;
+}
+
 body {
   font-family: 'Segoe UI', sans-serif;
-  background: #f4f6f9;
+  background: #f4f6f8;
   margin: 0;
-  padding: 20px;
+  padding: 40px;
 }
 
 .container {
-  max-width: 900px;
+  max-width: 1200px;
   margin: auto;
-  background: white;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  padding: 20px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 12px rgba(0,0,0,0.05);
 }
 
+/* === Titres === */
 h1 {
-  margin-bottom: 20px;
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 40px;
 }
 
-.filters {
+h2 {
+  color: #34495e;
+  margin-bottom: 15px;
+}
+
+/* === Formulaires === */
+form {
   display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 15px;
 }
 
-select, button {
+input, select, button {
   padding: 10px;
+  font-size: 1em;
+  border: 1px solid #bdc3c7;
   border-radius: 6px;
-  border: 1px solid #ccc;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  transition: background 0.3s ease;
+}
+
+button[type="submit"] {
+  background-color: #3498db;
+  color: white;
+}
+
+button[type="submit"]:hover {
+  background-color: #2980b9;
+}
+
+/* === Sections === */
+#filterSection,
+#addUserSection {
+  margin-bottom: 30px;
+  padding: 20px;
+  background: #ecf0f1;
+  border-radius: 8px;
+}
+
+/* === Tableau === */
+#userTableSection {
+  margin-top: 30px;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
+  background: white;
+  box-shadow: 0 0 8px rgba(0,0,0,0.05);
 }
 
 th, td {
   padding: 12px;
-  border-bottom: 1px solid #ddd;
-  text-align: left;
+  border: 1px solid #ddd;
+  text-align: center;
 }
 
 th {
-  background-color: #007bff;
+  background-color: #3498db;
   color: white;
+}
+
+td button {
+  padding: 6px 10px;
+  margin: 2px;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+button.change { background-color: #27ae60; color: white; }
+button.delete { background-color: #e74c3c; color: white; }
+button.block  { background-color: #f39c12; color: white; }
+button.validate { background-color: #8e44ad; color: white; }
+button:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* === Toast === */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #2c3e50;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.4s ease;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.toast.success { background: #27ae60; }
+.toast.error   { background: #e74c3c; }
+.toast.info    { background: #3498db; }
+
+#toastLink {
+  color: #ecf0f1;
+  text-decoration: underline;
+  display: none;
+}
+
+/* === Animations === */
+@keyframes fadeInRow {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeOutRow {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(10px); }
+}
+
+@keyframes flashValidated {
+  0%   { background-color: #8e44ad; color: white; }
+  50%  { background-color: #d2b4de; color: #2c3e50; }
+  100% { background-color: transparent; color: inherit; }
+}
+
+.fade-out {
+  animation: fadeOutRow 0.4s ease forwards;
+}
+
+.flash-validated {
+  animation: flashValidated 1s ease forwards;
+}
+
+.role-icon {
+  transition: transform 0.4s ease, stroke 0.4s ease;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+.role-icon.animate {
+  transform: rotate(360deg);
+  stroke: #2ecc71;
+}
+
+/* === Responsive === */
+@media screen and (max-width: 768px) {
+  body {
+    padding: 20px;
+  }
+
+  .container {
+    padding: 10px;
+  }
+
+  form {
+    flex-direction: column;
+  }
+
+  table, th, td {
+    font-size: 0.9em;
+  }
+
+  #toast {
+    bottom: 10px;
+    right: 10px;
+    font-size: 0.9em;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  h1 {
+    font-size: 1.4em;
+  }
+
+  h2 {
+    font-size: 1.2em;
+  }
+
+  input, select, button {
+    font-size: 0.95em;
+  }
+
+  table, th, td {
+    font-size: 0.85em;
+  }
+
+  .toast {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+#searchContainer {
+  margin-bottom: 20px;
+  text-align: right;
+}
+
+#searchInput {
+  padding: 8px 12px;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 300px;
+}
+
+.sidebar {
+  animation: slideIn 0.4s ease;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(-240px); opacity: 0; }
+  to   { transform: translateX(0); opacity: 1; }
+}
+
+#exportControls {
+  margin: 20px 0;
+  text-align: right;
+}
+
+#exportControls button {
+  padding: 8px 14px;
+  margin-left: 10px;
+  background-color: #34495e;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#exportControls button:hover {
+  background-color: #2c3e50;
 }

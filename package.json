@@ -1,0 +1,33 @@
+{
+  "name": "rse-website",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Plateforme RSE",
+  "scripts": {
+    "start": "node server.js",
+    "audit": "node audit.js",
+    "encode-images": "node Frontend/js/modules/encodeImages.js",
+    "build": "node Frontend/js/modules/checkEnv.js && node Frontend/js/modules/build.js && echo '✅ Build terminé.'",
+    "secure-build": "node audit.js && node Frontend/js/modules/build.js && node Frontend/js/modules/exportExcel.js && echo '✅ Build sécurisé terminé.'",
+    "build:clean": "node Frontend/js/modules/build.js --clean-only",
+    "build:report": "node Frontend/js/modules/build.js --report-only",
+    "build:quiet": "node Frontend/js/modules/build.js --quiet",
+    "build:verbose": "node Frontend/js/modules/build.js --verbose",
+    "clean": "rm -rf dist/* && echo '🧹 Nettoyage terminé.'",
+    "dashboard": "node Frontend/js/modules/dashboard.js",
+    "check-env": "node Frontend/js/modules/checkEnv.js"
+  },
+  "devDependencies": {
+    "terser": "^5.44.0"
+  },
+  "dependencies": {
+    "chart.js": "^4.5.0",
+    "chokidar": "^4.0.3",
+    "dotenv": "^17.2.2",
+    "exceljs": "^4.4.0",
+    "image-size": "^2.0.2",
+    "jsonwebtoken": "^9.0.2",
+    "jspdf": "^3.0.3",
+    "jspdf-autotable": "^5.0.2"
+  }
+}

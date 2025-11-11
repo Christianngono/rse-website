@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Configuration des rapports admin</title>
+  <link rel="stylesheet" href="assets/css/admin_log.css">
+</head>
+<body>
+  <div class="container">
+    <h1>⚙️ Configuration des rapports automatiques</h1>
+
+    <form id="configForm">
+      <label>Email destinataire :</label>
+      <input type="email" name="email" required>
+
+      <label>Fréquence :</label>
+      <select name="frequency">
+        <option value="daily">Quotidien</option>
+        <option value="weekly">Hebdomadaire</option>
+      </select>
+
+      <label>Format :</label>
+      <select name="format">
+        <option value="pdf">PDF</option>
+        <option value="csv">CSV</option>
+        <option value="both">PDF + CSV</option>
+      </select>
+
+      <button type="submit">💾 Enregistrer</button>
+    </form>
+
+    <div id="status"></div>
+  </div>
+  <script src="js/log_report_config.js">
+  </script>
+</body>
+</html>

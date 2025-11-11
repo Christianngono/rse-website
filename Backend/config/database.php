@@ -2,7 +2,7 @@
 $host = 'localhost';
 $db   = 'rse_quiz';
 $user = 'admin_chris';
-$pass = 'monSuperMotDePasse';
+$pass = 'MonSuperMotDePasse';
 $charset = 'utf8mb4';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";

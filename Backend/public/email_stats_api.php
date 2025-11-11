@@ -2,18 +2,11 @@
 require '../config/database.php';
 
 $stmt = $pdo->query("
-  SELECT DATE(sent_at) AS date, COUNT(*) AS total
+  SELECT DATE(sent_at) AS day, username, COUNT(*) AS total
   FROM email_logs
-  GROUP BY DATE(sent_at)
-  ORDER BY DATE(sent_at)
+  GROUP BY day, username
+  ORDER BY day DESC
 ");
 
-$dates = [];
-$counts = [];
-
-while ($row = $stmt->fetch()) {
-  $dates[] = $row['date'];
-  $counts[] = (int)$row['total'];
-}
-
-echo json_encode(['dates' => $dates, 'counts' => $counts]);
+$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+echo json_encode(['by_day_user' => $data]);

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Journal des actions admin</title>
+  <link rel="stylesheet" href="assets/css/admin_log.css">
+</head>
+<body>
+  <div class="container">
+    <h1>📋 Journal des actions administratives</h1>
+
+    <div class="filters">
+      <input type="date" id="dateFilter">
+      <input type="text" id="adminFilter" placeholder="Administrateur">
+      <input type="text" id="actionFilter" placeholder="Type d’action">
+      <button id="applyFilters">Filtrer</button>
+      <button id="exportCSV">Exporter CSV</button>
+      <button id="exportPDF">Exporter PDF</button>
+      <button id="exportAllCSV">Exporter tous les résultats (CSV)</button>
+      <button id="exportAllPDF">Exporter tous les résultats (PDF)</button>
+      <button id="printLogs">🖨️ Imprimer les résultats</button>
+      <button id="emailLogs">📧 Envoyer par email</button>
+    </div>
+
+    <table id="logsTable">
+      <thead>
+        <tr>
+          <th data-sort="timestamp">Date</th>
+          <th data-sort="admin_username">Administrateur</th>
+          <th data-sort="action">Action</th>
+          <th data-sort="target_user_id">ID cible</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <div class="pagination">
+      <button id="prevPage">⬅️ Précédent</button>
+      <span id="pageIndicator">Page 1</span>
+      <button id="nextPage">Suivant ➡️</button>
+      <button id="exportPageCSV">Exporter cette page (CSV)</button>
+      <button id="exportPagePDF">Exporter cette page (PDF)</button>
+    </div>
+  </div>
+  <script type="module" src="js/admin_logs.js"></script>
+</body>
+</html>

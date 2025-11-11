@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Déclencheur de Build</title>
+  <style>
+    body { font-family: sans-serif; padding: 2em; }
+    button { margin: 0.5em; padding: 1em; font-size: 1em; }
+  </style>
+</head>
+<body>
+  <h1>🚀 Déclencheur de Build</h1>
+  <button onclick="run('build')">Build complet</button>
+  <button onclick="run('build:clean')">Nettoyage uniquement</button>
+  <button onclick="run('build:report')">Afficher rapport</button>
+  <button onclick="run('build:quiet')">Build silencieux</button>
+  <button onclick="run('build:verbose')">Build verbeux</button>
+  <button onclick="run('dashboard')">Ouvrir dashboard CLI</button>
+  <button onclick="window.open('/export-excel')">📊 Exporter Excel</button>
+  <button onclick="window.open('/rapport-pdf')">📄 Télécharger PDF</button>
+
+  <pre id="output"></pre>
+
+  <script>
+    async function run(script) {
+      const res = await fetch(`/run?script=${script}`);
+      const text = await res.text();
+      document.getElementById('output').textContent = text;
+    }
+  </script>
+</body>
+</html>

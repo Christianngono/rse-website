@@ -20,10 +20,14 @@
 
       <input type="submit" value="Vérifier">
     </form>
-
+    <form id="verifyForm">
+      <input type="text" name="phone" placeholder="Numéro (ex: +33...)" required>
+      <button type="button" id="sendCodeBtn">Envoyer le code</button>
+      <input type="text" name="code" placeholder="Code reçu" required>
+      <button type="submit">Vérifier</button>
+    </form>
     <div id="message"></div>
   </div>
-
   <script src="verify_sms.js"></script>
 </body>
 </html>

@@ -1,47 +1,18 @@
-document.addEventListener('DOMContentLoaded', () => {
-  // Animation du titre principal
-  const title = document.querySelector('main h1');
-  if (title) {
-    title.classList.add('animate-welcome');
+document.addEventListener("DOMContentLoaded", () => {
+  const sound = document.getElementById("welcomeSound");
+  if (sound) {
+    sound.volume = 0.5;
+    sound.play().catch(() => {
+      console.warn("Lecture automatique bloquée par le navigateur.");
+    });
   }
 
-  // Animation du message (si présent)
-  const message = document.querySelector('.message');
-  if (message) {
-    message.classList.add('fade-in');
-    setTimeout(() => message.classList.remove('fade-in'), 3000);
-  }
-
-  // Lecture du son selon le profil utilisateur
-  const session = window.userSession;
-  if (session?.isLoggedIn) {
-    const profileSoundMap = {
-      expert: "welcome-expert.mp3",
-      débutant: "welcome-beginner.mp3",
-      confirmé: "welcome-confirmed.mp3"
-    };
-
-    const soundFile = profileSoundMap[session.profil];
-    if (soundFile) {
-      const audio = new Audio(`assets/sounds/${soundFile}`);
-      audio.volume = 0.7;
-      audio.play().catch(err => {
-        console.warn("Lecture audio bloquée :", err);
-      });
-    }
-
-    // Affichage du loader
-    const loader = document.getElementById('loader');
-    if (loader) {
-      loader.classList.remove('hidden');
-      loader.classList.add('visible');
-    }
-
-    loader.classList.add('fade-out');
-
-    // Redirection automatique après 5 secondes
+  const btn = document.querySelector(".btn");
+  btn.addEventListener("click", () => {
+    btn.classList.remove("pulse");
+    btn.textContent = "Chargement...";
     setTimeout(() => {
-      window.location.href = "index.php";
-    }, 6000);
-  }
+      window.location.href = btn.getAttribute("href");
+    }, 800);
+  });
 });

@@ -1,18 +1,22 @@
 <?php
-require '../config/database.php';
+require '../includes/init.php';
 header('Content-Type: application/json');
 
 $response = [
-    'username_available' => false,
-    'email_available' => false,
-    'message' => ''
+    'username_available' => null,
+    'email_available' => null,
+    'username_message' => '',
+    'email_message' => ''
 ];
 
+$username = trim($_POST['username'] ?? '');
+$email = trim($_POST['email'] ?? '');
+
 // Vérification du nom d'utilisateur
-if (isset($_GET['username'])) {
-    $username = trim($_GET['username']);
+if ($username !== '') {
     if (!preg_match('/^[a-zA-Z0-9_]{3,20}$/', $username)) {
-        $response['message'] = "Nom d'utilisateur invalide.";
+        $response['username_available'] = false;
+        $response['username_message'] = "Nom d'utilisateur invalide.";
     } else {
         try {
             $stmt = $pdo->prepare("SELECT COUNT(*) FROM users WHERE username = ?");
@@ -21,26 +25,28 @@ if (isset($_GET['username'])) {
 
             if ($count == 0) {
                 $response['username_available'] = true;
-                $response['message'] = "Nom disponible ✅";
+                $response['username_message'] = "Nom disponible ✅";
             } else {
+                $response['username_available'] = false;
                 $suggestions = [];
                 for ($i = 1; $i <= 3; $i++) {
                     $suggestions[] = $username . rand(100, 999);
                 }
-                $response['message'] = "Nom déjà pris ❌. Suggestions : " . implode(', ', $suggestions);
+                $response['username_message'] = "Nom déjà pris ❌. Suggestions : " . implode(', ', $suggestions);
             }
         } catch (PDOException $e) {
             error_log("Erreur DB (username) : " . $e->getMessage());
-            $response['message'] = "Erreur serveur lors de la vérification du nom.";
+            $response['username_available'] = false;
+            $response['username_message'] = "Erreur serveur lors de la vérification du nom.";
         }
     }
 }
 
-// Vérification de l'email
-if (isset($_GET['email'])) {
-    $email = trim($_GET['email']);
+// 📧 Vérification de l'email
+if ($email !== '') {
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $response['message'] .= " Format d'email invalide.";
+        $response['email_available'] = false;
+        $response['email_message'] = "Format d'email invalide.";
     } else {
         try {
             $stmt = $pdo->prepare("SELECT COUNT(*) FROM users WHERE email = ?");
@@ -49,13 +55,15 @@ if (isset($_GET['email'])) {
 
             if ($count == 0) {
                 $response['email_available'] = true;
-                $response['message'] .= " Email disponible ✅";
+                $response['email_message'] = "Email disponible ✅";
             } else {
-                $response['message'] .= " Email déjà utilisé ❌";
+                $response['email_available'] = false;
+                $response['email_message'] = "Email déjà utilisé ❌";
             }
         } catch (PDOException $e) {
             error_log("Erreur DB (email) : " . $e->getMessage());
-            $response['message'] .= " Erreur serveur lors de la vérification de l'email.";
+            $response['email_available'] = false;
+            $response['email_message'] = "Erreur serveur lors de la vérification de l'email.";
         }
     }
 }

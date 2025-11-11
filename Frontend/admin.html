@@ -2,46 +2,116 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Gestion des utilisateurs</title>
+  <link rel="icon" href="assets/images/logos.png" type="image/png">
+  <link rel="preload" href="assets/sounds/correct.mp3" as="audio">
   <link rel="stylesheet" href="assets/css/admin.css">
 </head>
 <body>
-  <div class="container">
+  <div class="sidebar" id="sidebar">
+    <div class="logo">🛠️ Admin</div>
+    <nav>
+      <ul>
+        <li><a href="#filterSection">🔍 Filtres</a></li>
+        <li><a href="#addUserSection">➕ Ajouter</a></li>
+        <li><a href="#userTableSection">📋 Liste</a></li>
+      </ul>
+    </nav>
+    <button id="toggleSidebar" aria-label="Ouvrir le menu">☰</button>
+  </div>
+  <div class="container" id="mainContent">
     <h1>👤 Administration des utilisateurs</h1>
 
-    <div class="filters">
-      <select id="profilFilter">
-        <option value="">Tous les profils</option>
-        <option value="novice">Novice</option>
-        <option value="confirmé">Confirmé</option>
-        <option value="expert">Expert</option>
-      </select>
+    <!-- Section de filtrage -->
+    <section id="filterSection">
+      <h2>🔍 Filtrer les utilisateurs</h2>
+      <form id="filterForm">
+        <select name="role">
+          <option value="">Tous les rôles</option>
+          <option value="admin">Administrateur</option>
+          <option value="user">Utilisateur</option>
+        </select>
+        <select name="profil">
+          <option value="">Tous les profils</option>
+          <option value="débutant">Débutant</option>
+          <option value="confirmé">Confirmé</option>
+          <option value="expert">Expert</option>
+        </select>
+        <button type="submit">Appliquer</button>
+      </form>
+    </section>
 
-      <select id="roleFilter">
-        <option value="">Tous les rôles</option>
-        <option value="user">Utilisateur</option>
-        <option value="admin">Administrateur</option>
-      </select>
+    <!-- Section d’ajout -->
+    <section id="addUserSection">
+      <h2>➕ Ajouter un utilisateur</h2>
+      <form id="addUserForm">
+        <input type="text" name="username" placeholder="Nom d'utilisateur" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="text" name="phone" placeholder="Téléphone">
+        <input type="password" name="password" placeholder="Mot de passe" required>
+        <select name="profil">
+          <option value="débutant">Débutant</option>
+          <option value="confirmé">Confirmé</option>
+          <option value="expert">Expert</option>
+        </select>
+        <select name="role">
+          <option value="user">Utilisateur</option>
+          <option value="admin">Administrateur</option>
+        </select>
+        <button type="submit">Créer</button>
+      </form>
+    </section>
 
-      <button id="applyFilters">Filtrer</button>
+    <div id="searchContainer">
+      <input type="text" id="searchInput" placeholder="🔎 Rechercher un utilisateur...">
     </div>
 
-    <table id="adminTable">
-      <thead>
-        <tr>
-          <th>Nom</th>
-          <th>Rôle</th>
-          <th>Profil</th>
-          <th>Email</th>
-          <th>Score</th>
-          <th>Actions</th>
-          <th>Inscription</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
+    <div id="resultCount"></div>
+
+    <div id="exportControls">
+      <button id="exportPDF">📄 Exporter en PDF</button>
+      <button id="exportCSV">📊 Exporter en CSV</button>
+    </div>
+
+    <div id="exportControls">
+      <button id="exportPDF">📄 Exporter en PDF</button>
+      <button id="exportCSV">📊 Exporter en CSV</button>
+      <button id="testNotifyBtn">📧 Tester notification</button>
+    </div>
+
+    <!-- Tableau des utilisateurs -->
+    <section id="userTableSection">
+      <h2>📋 Liste des utilisateurs</h2>
+      <table id="adminTable">
+        <thead>
+          <tr>
+            <th>Nom</th>
+            <th>Rôle</th>
+            <th>Profil</th>
+            <th>Email</th>
+            <th>Score</th>
+            <th>Actions</th>
+            <th>Inscription</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+  </div>
+  <div id="toast" class="toast">
+    <span id="toastIcon"></span>
+    <span id="toastMessage"></span>
+    <a id="toastLink" target="_blank">Voir</a>
   </div>
 
+  <div id="paginationContainer"></div>
+
   <script type="module" src="js/admin.js"></script>
+  <audio id="successSound" src="assets/sounds/correct.mp3" preload="auto"></audio>
+  <audio id="deleteSound" src="assets/sounds/wrong.mp3" preload="auto"></audio>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
 </body>
 </html>

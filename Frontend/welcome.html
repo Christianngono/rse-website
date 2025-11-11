@@ -1,39 +1,26 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Bienvenue – Quiz RSE</title>
-  <link rel="stylesheet" href="assets/css/welcome.css">
+  <meta charset="UTF-8" />
+  <title>Bienvenue dans le Quiz RSE</title>
+  <link rel="stylesheet" href="assets/css/welcome.css" />
 </head>
 <body>
-  <main>
-    <h1>Bienvenue sur le site du Quiz RSE</h1>
+  <video autoplay muted loop id="backgroundVideo">
+    <source src="assets/videos/rse-background.mp4" type="video/mp4" />
+    Votre navigateur ne supporte pas la vidéo.
+  </video>
 
-    <div class="actions">
-      <a href="index.html" class="btn">Retour à l’accueil</a>
-      <a href="login.html" class="btn">Se connecter</a>
-      <a href="register.html" class="btn">s'en registrer</a>
+  <div class="overlay">
+    <div class="container">
+      <h1 class="fade-in">Bienvenue dans le Quiz RSE 🎉</h1>
+      <p class="fade-in delay">Votre compte a bien été créé.</p>
+      <p class="fade-in delay2">Vous pouvez maintenant commencer le quiz ou consulter vos statistiques.</p>
+      <a href="quiz.html" class="btn pulse">Commencer le quiz</a>
+      <audio id="welcomeSound" src="assets/sounds/build-complete.mp3" autoplay></audio>
     </div>
+  </div>
 
-    <!-- Loader SVG caché par défaut -->
-    <div id="loader" class="hidden">
-      <svg width="60" height="60" viewBox="0 0 100 100">
-        <circle cx="50" cy="50" r="40" stroke="#3498db" stroke-width="8" fill="none" stroke-linecap="round">
-          <animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50"
-            dur="1s" repeatCount="indefinite" />
-        </circle>
-      </svg>
-      <p>Chargement de votre espace...</p>
-    </div>
-  </main>
-
-  <script>
-    window.userSession = {
-      isLoggedIn: true,
-      role: "admin",
-      profil: "expert"
-    };
-  </script>
-  <script src="js/welcome.js" type="module"></script>
+  <script src="js/welcome.js"></script>
 </body>
 </html>

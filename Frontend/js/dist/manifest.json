@@ -1,0 +1,23 @@
+{
+  "buildDate": "2025-09-22T21:06:22.112Z",
+  "assets": [
+    {
+      "file": "logo.png",
+      "path": "Frontend/assets/images/logo.png",
+      "type": "image",
+      "encoded": true
+    },
+    {
+      "file": "signature.png",
+      "path": "Frontend/assets/images/signature.png",
+      "type": "image",
+      "encoded": true
+    },
+    {
+      "file": "background.png",
+      "path": "Frontend/assets/images/background.png",
+      "type": "image",
+      "encoded": true
+    }
+  ]
+}

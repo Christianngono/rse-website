@@ -3,18 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <title>Tableau de bord Admin</title>
-  <link rel="stylesheet" href="assets/css/admin.css">
+  <link rel="stylesheet" href="assets/css/admin_dashboard.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>📊 Tableau de bord RSE</h1>
 
+    <!-- Statistiques globales -->
     <div class="stats">
       <p>Total de participants : <span id="totalParticipants">...</span></p>
       <p>Score moyen : <span id="averageScore">...</span></p>
     </div>
 
+    <!-- Graphique par profil -->
     <canvas id="profilChart" width="400" height="300"></canvas>
 
     <table id="profilTable">
@@ -27,7 +32,60 @@
       </thead>
       <tbody></tbody>
     </table>
+
+    <!-- Graphique des envois -->
+    <h2>📈 Envois par jour et utilisateur</h2>
+    <canvas id="emailChart" width="600" height="300"></canvas>
+
+    <!-- Filtres et exports -->
+    <h2>📧 Historique des notifications envoyées</h2>
+    <form id="logFilterForm">
+      <input type="text" name="username" placeholder="Utilisateur">
+      <input type="date" name="start">
+      <input type="date" name="end">
+      <button type="submit">Filtrer</button>
+    </form>
+
+    <div class="export-buttons">
+      <button id="goToFirstPage">🏠 Première page</button>
+      <button id="selectAllRows">✅ Tout sélectionner</button>
+      <button id="exportLogsPDF">📄 Exporter les logs PDF</button>
+      <button id="exportLogsCSV">📊 Exporter les logs CSV</button>
+      <button id="exportLogsExcel">📈 Exporter Excel</button>
+    </div>
+
+    <!-- Tableau des logs -->
+    <table id="emailLogsTable">
+      <thead>
+        <tr>
+          <th>Profil</th>
+          <th>Destinataire</th>
+          <th>Objet</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <table id="emailLogsTable">
+      <thead>
+        <tr>
+          <th data-sort="profil">Profil</th>
+          <th data-sort="recipient">Destinataire</th>
+          <th data-sort="subject">Objet</th>
+          <th data-sort="sent_at">Date</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <!-- Pagination + page actuelle -->
+    <div class="pagination-controls">
+      <p>📄 Page actuelle : <span id="currentPageDisplay">1</span></p>
+      <div id="paginationContainer" class="pagination"></div>
+    </div>
   </div>
-    <script src="assets/js/admin_dashboard.js"></script>
+
+  <script type="module" src="assets/js/admin_dashboard.js"></script>
 </body>
 </html>

@@ -13,6 +13,8 @@ DROP TABLE IF EXISTS questions;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS admin_logs;
 DROP TABLE IF EXISTS quiz_scores;
+DROP TABLE IF EXISTS report_config;
+DROP TABLE IF EXISTS report_history;
 
 -- Table des utilisateurs (administration)
 CREATE TABLE users (
@@ -127,6 +129,23 @@ CREATE TABLE signature_tokens (
     expires_at DATETIME NOT NULL,
     is_validated BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE report_config (
+    id INT PRIMARY KEY,
+    email VARCHAR(255),
+    frequency VARCHAR(20),
+    format VARCHAR(10)
+);
+
+CREATE TABLE report_history (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  sent_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  recipient VARCHAR(255) NOT NULL,
+  format VARCHAR(10) NOT NULL,
+  frequency VARCHAR(20) NOT NULL,
+  status VARCHAR(10) NOT NULL,
+  message TEXT
 );
 
 

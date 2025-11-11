@@ -115,6 +115,7 @@ abstract class ContentModels
      * @property string $phone
      * @property string $id
      * @property string $code
+     * @property string $webviewSize
     */
     public static function createCardAction(array $payload = []): CardAction
     {
@@ -266,6 +267,21 @@ abstract class ContentModels
     }
 
     /**
+     * @property string $body
+     * @property string $buttonText
+     * @property string $subtitle
+     * @property string $mediaUrl
+     * @property string $flowId
+     * @property string $flowToken
+     * @property string $flowFirstPageId
+     * @property bool $isFlowFirstPageEndpoint
+    */
+    public static function createWhatsappFlows(array $payload = []): WhatsappFlows
+    {
+        return new WhatsappFlows($payload);
+    }
+
+    /**
      * @property TwilioText $twilioText
      * @property TwilioMedia $twilioMedia
      * @property TwilioLocation $twilioLocation
@@ -279,6 +295,7 @@ abstract class ContentModels
      * @property TwilioSchedule $twilioSchedule
      * @property WhatsappCard $whatsappCard
      * @property WhatsappAuthentication $whatsappAuthentication
+     * @property WhatsappFlows $whatsappFlows
     */
     public static function createTypes(array $payload = []): Types
     {
@@ -619,6 +636,7 @@ class CardAction implements \JsonSerializable
      * @property string $phone
      * @property string $id
      * @property string $code
+     * @property string $webviewSize
     */
         protected $type;
         protected $title;
@@ -626,6 +644,7 @@ class CardAction implements \JsonSerializable
         protected $phone;
         protected $id;
         protected $code;
+        protected $webviewSize;
     public function __construct(array $payload = []) {
         $this->type = Values::array_get($payload, 'type');
         $this->title = Values::array_get($payload, 'title');
@@ -633,6 +652,7 @@ class CardAction implements \JsonSerializable
         $this->phone = Values::array_get($payload, 'phone');
         $this->id = Values::array_get($payload, 'id');
         $this->code = Values::array_get($payload, 'code');
+        $this->webviewSize = Values::array_get($payload, 'webview_size');
     }
 
     public function toArray(): array
@@ -657,6 +677,9 @@ class CardAction implements \JsonSerializable
         }
         if (isset($this->code)) {
             $jsonString['code'] = $this->code;
+        }
+        if (isset($this->webviewSize)) {
+            $jsonString['webview_size'] = $this->webviewSize;
         }
         return $jsonString;
     }
@@ -1194,6 +1217,68 @@ class WhatsappAuthentication implements \JsonSerializable
     }
 }
 
+class WhatsappFlows implements \JsonSerializable
+{
+    /**
+     * @property string $body
+     * @property string $buttonText
+     * @property string $subtitle
+     * @property string $mediaUrl
+     * @property string $flowId
+     * @property string $flowToken
+     * @property string $flowFirstPageId
+     * @property bool $isFlowFirstPageEndpoint
+    */
+        protected $body;
+        protected $buttonText;
+        protected $subtitle;
+        protected $mediaUrl;
+        protected $flowId;
+        protected $flowToken;
+        protected $flowFirstPageId;
+        protected $isFlowFirstPageEndpoint;
+    public function __construct(array $payload = []) {
+        $this->body = Values::array_get($payload, 'body');
+        $this->buttonText = Values::array_get($payload, 'button_text');
+        $this->subtitle = Values::array_get($payload, 'subtitle');
+        $this->mediaUrl = Values::array_get($payload, 'media_url');
+        $this->flowId = Values::array_get($payload, 'flow_id');
+        $this->flowToken = Values::array_get($payload, 'flow_token');
+        $this->flowFirstPageId = Values::array_get($payload, 'flow_first_page_id');
+        $this->isFlowFirstPageEndpoint = Values::array_get($payload, 'is_flow_first_page_endpoint');
+    }
+
+    public function toArray(): array
+    {
+        return $this->jsonSerialize();
+    }
+
+    public function jsonSerialize(): array
+    {
+        $jsonString = [
+            'body' => $this->body,
+            'button_text' => $this->buttonText,
+            'flow_id' => $this->flowId
+        ];
+        if (isset($this->subtitle)) {
+            $jsonString['subtitle'] = $this->subtitle;
+        }
+        if (isset($this->mediaUrl)) {
+            $jsonString['media_url'] = $this->mediaUrl;
+        }
+        if (isset($this->flowToken)) {
+            $jsonString['flow_token'] = $this->flowToken;
+        }
+        if (isset($this->flowFirstPageId)) {
+            $jsonString['flow_first_page_id'] = $this->flowFirstPageId;
+        }
+        if (isset($this->isFlowFirstPageEndpoint)) {
+            $jsonString['is_flow_first_page_endpoint'] = $this->isFlowFirstPageEndpoint;
+        }
+        return $jsonString;
+    }
+}
+
 class Types implements \JsonSerializable
 {
     /**
@@ -1210,6 +1295,7 @@ class Types implements \JsonSerializable
      * @property TwilioSchedule $twilioSchedule
      * @property WhatsappCard $whatsappCard
      * @property WhatsappAuthentication $whatsappAuthentication
+     * @property WhatsappFlows $whatsappFlows
     */
         protected $twilioText;
         protected $twilioMedia;
@@ -1224,6 +1310,7 @@ class Types implements \JsonSerializable
         protected $twilioSchedule;
         protected $whatsappCard;
         protected $whatsappAuthentication;
+        protected $whatsappFlows;
     public function __construct(array $payload = []) {
         $this->twilioText = Values::array_get($payload, 'twilio/text');
         $this->twilioMedia = Values::array_get($payload, 'twilio/media');
@@ -1238,6 +1325,7 @@ class Types implements \JsonSerializable
         $this->twilioSchedule = Values::array_get($payload, 'twilio/schedule');
         $this->whatsappCard = Values::array_get($payload, 'whatsapp/card');
         $this->whatsappAuthentication = Values::array_get($payload, 'whatsapp/authentication');
+        $this->whatsappFlows = Values::array_get($payload, 'whatsapp/flows');
     }
 
     public function toArray(): array
@@ -1287,6 +1375,9 @@ class Types implements \JsonSerializable
         }
         if (isset($this->whatsappAuthentication)) {
             $jsonString['whatsapp/authentication'] = $this->whatsappAuthentication;
+        }
+        if (isset($this->whatsappFlows)) {
+            $jsonString['whatsapp/flows'] = $this->whatsappFlows;
         }
         return $jsonString;
     }

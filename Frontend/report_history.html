@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Historique des rapports envoyés</title>
+  <link rel="stylesheet" href="assets/css/admin_log.css">
+</head>
+<body>
+  <div class="container">
+    <h1>📨 Historique des rapports automatiques</h1>
+
+    <div class="filters">
+      <input type="date" id="dateFilter">
+      <select id="statusFilter">
+        <option value="">Tous les statuts</option>
+        <option value="success">Succès</option>
+        <option value="failed">Échec</option>
+      </select>
+      <button id="applyFilters">Filtrer</button>
+      <button id="exportCSV">Exporter CSV</button>
+      <button id="exportPDF">Exporter PDF</button>
+    </div>
+
+    <div id="status" class="status-message">
+    </div>
+
+    <table id="historyTable">
+      <thead>
+        <tr>
+          <th>Date d’envoi</th>
+          <th>Destinataire</th>
+          <th>Format</th>
+          <th>Fréquence</th>
+          <th>Statut</th>
+          <th>Message</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <script type="module" src="js/report_history.js"></script>
+</body>
+</html>

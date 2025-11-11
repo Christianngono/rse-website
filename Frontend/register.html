@@ -10,65 +10,78 @@
 <body>
   <div class="container">
     <h2>Inscription au Quiz RSE</h2>
-
-    <!-- Message de validation -->
-    <p id="validationMessage" class="validation-message">
-      <span class="check-icon">✅</span> Tous les champs sont valides
-    </p>
-
-    <form id="registerForm" method="POST" autocomplete="off">
-      <!-- Nom d'utilisateur -->
+    <form id="registerForm" autocomplete="off">
       <label for="username">Nom d'utilisateur :</label>
-      <div class="input-group">
-        <input type="text" name="username" id="username" required autocomplete="off" />
-        <span id="usernameStatus" class="status-icon"></span>
-      </div>
+      <input type="text" id="username" name="username" class="form-field" required />
+      <span id="usernameStatus" class="status-icon"></span>
+      <div id="usernameSuggestions" class="suggestion-box"></div>
 
-      <!-- Email -->
       <label for="email">Adresse email :</label>
-      <div class="input-group">
-        <input type="email" name="email" id="email" required />
-        <span id="emailStatus" class="status-icon"></span>
+      <input type="email" id="email" name="email" class="form-field" required />
+      <span id="emailStatus" class="status-icon"></span>
+
+      <label for="role">Rôle :</label>
+      <select id="role" name="role" class="form-field">
+        <option value="user">👤 Utilisateur</option>
+        <option value="admin">🛠️ Administrateur</option>
+      </select>
+
+      <label for="profil">Profil :</label>
+      <select id="profil" name="profil" class="form-field">
+        <option value="novice">🌱 Novice</option>
+        <option value="confirmé">📘 Confirmé</option>
+        <option value="expert">🚀 Expert</option>
+      </select>
+
+      <div id="previewBox" class="preview-box">
+        <p id="rolePreview"></p>
+        <p id="profilPreview"></p>
       </div>
 
-      <!-- Mot de passe -->
       <label for="password">Mot de passe :</label>
-      <div class="input-group">
-        <input type="password" name="password" id="password" required autocomplete="off" />
-        <span id="passwordStatus" class="status-icon"></span>
-      </div>
-      <div id="passwordStrength"></div>
+      <input type="password" id="password" name="password" class="form-field" required />
+      <div id="passwordStrength" class="strength-indicator">Force :</div>
+      <div id="passwordBar" class="strength-bar"><div class="bar-fill"></div></div>
 
-      <!-- Téléphone -->
-      <label for="phone">Numéro de téléphone :</label>
-      <div class="input-group">
-        <input type="text" name="phone" id="phone" />
-        <span id="phoneStatus" class="status-icon"></span>
+      <label for="phone">Téléphone :</label>
+      <input type="tel" id="phone" name="phone" class="form-field" />
+
+      <div id="accountSummary" class="account-summary" style="display:none;">
+        <h3>Résumé de votre compte</h3>
+        <ul>
+          <li><strong>Nom :</strong> <span id="summaryUsername"></span></li>
+          <li><strong>Email :</strong> <span id="summaryEmail"></span></li>
+          <li><strong>Rôle :</strong> <span id="summaryRole"></span></li>
+          <li><strong>Profil :</strong> <span id="summaryProfil"></span></li>
+          <li><strong>Téléphone :</strong> <span id="summaryPhone"></span></li>
+        </ul>
       </div>
 
-      <input type="hidden" name="recaptcha_token" id="recaptcha_token" />
-      <input type="submit" value="S'inscrire" />
+      <div class="confirmation-check">
+        <input type="checkbox" id="confirmCheckbox" />
+        <label for="confirmCheckbox">Je confirme que les informations ci-dessus sont exactes</label>
+      </div>
+
+      <input type="hidden" id="recaptcha_token" name="recaptcha_token" />
+      <button type="submit" id="submitBtn" disabled>S’inscrire</button>
     </form>
 
-    <!-- Zone de message et loader -->
     <div id="message"></div>
-    <div id="loader" class="loader-container">
+    <div id="loader" class="loader-container" style="display:none;">
       <div class="loader"></div>
       <p class="loader-text">Veuillez patienter…</p>
     </div>
   </div>
 
-  <!-- Overlay de confirmation -->
-  <div id="confirmationOverlay" class="overlay">
-    <div class="popup">
-      <span class="icon">🎉</span>
+  <div id="confirmationOverlay" class="overlay" style="display:none;">
+    <div class="popup animated">
+      <span class="icon pulse">✅</span>
       <h2>Inscription réussie</h2>
       <p>Bienvenue dans le Quiz RSE !</p>
       <div class="loader-bar"></div>
     </div>
   </div>
 
-  <!-- Scripts JS -->
   <script type="module" src="Frontend/js/register.js"></script>
 </body>
 </html>
